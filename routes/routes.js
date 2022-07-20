@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const db = require("../lib/db");
 const { validateRequest } = require("../middleware/cus_sel");
 const cust_selMiddleware = require("../middleware/cus_sel");
-
+const order_controller = require('../controllers/order_controler'); 
 router.post("/register", validateRequest, async (req, res, next) => {
   db.query(
     `SELECT * FROM customer WHERE email = ${db.escape(req.body.email)};`,
@@ -124,4 +124,17 @@ router.put("/logout", cust_selMiddleware.isLoggedIn, function (req, res) {
             message: 'success logout'
         })
 });
+
+
+ 
+
+router.post('/order',cust_selMiddleware.isLoggedIn, order_controller.neworder); 
+router.get('/get_order',cust_selMiddleware.isLoggedIn, order_controller.getorder);
+router.delete('/delete_order/:ord_id',cust_selMiddleware.isLoggedIn, order_controller.deleteorder);
+router.delete('/delete_all',cust_selMiddleware.isLoggedIn, order_controller.deleteall);
+
+
+
+
+
 module.exports = router;
