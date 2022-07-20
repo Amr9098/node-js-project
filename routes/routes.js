@@ -6,7 +6,12 @@ const jwt = require("jsonwebtoken");
 const db = require("../lib/db");
 const { validateRequest } = require("../middleware/cus_sel");
 const cust_selMiddleware = require("../middleware/cus_sel");
-const order_controller = require('../controllers/order_controler'); 
+const order_controller = require('../controllers/order_controler');
+const product_controller = require('../controllers/product');
+
+
+
+
 router.post("/register", validateRequest, async (req, res, next) => {
   db.query(
     `SELECT * FROM customer WHERE email = ${db.escape(req.body.email)};`,
@@ -94,14 +99,19 @@ router.post("/login", (req, res, next) => {
             db.query(
               `UPDATE customer SET last_login = now() WHERE cus_id = '${result[0].cus_id}'`
             );
-            return res
-              .cookie("jwt", token, {
-                httpOnly: true,
-                maxAge: 60*24,
-                secure: process.env.NODE_ENV === "production",
-              })
-              .status(200)
-              .json({ message: "Logged in successfully 😊 👌" });
+            // return res
+            //   .cookie("jwt", token, {
+            //     httpOnly: true,
+            //     maxAge: 60*24,
+            //     secure: process.env.NODE_ENV === "production",
+            //   })
+            //   .status(200)
+            //   .json({ message: "Logged in successfully 😊 👌" });
+
+            return res.status(200).send({
+              msg: "Logged in successfully 😊 👌",
+              token
+            });
           }
           return res.status(401).send({
             msg: "email or password is incorrect!",
@@ -126,12 +136,19 @@ router.put("/logout", cust_selMiddleware.isLoggedIn, function (req, res) {
 });
 
 
- 
 
-router.post('/order',cust_selMiddleware.isLoggedIn, order_controller.neworder); 
+
+router.post('/order',cust_selMiddleware.isLoggedIn, order_controller.neworder);
 router.get('/get_order',cust_selMiddleware.isLoggedIn, order_controller.getorder);
 router.delete('/delete_order/:ord_id',cust_selMiddleware.isLoggedIn, order_controller.deleteorder);
 router.delete('/delete_all',cust_selMiddleware.isLoggedIn, order_controller.deleteall);
+
+
+router.post('/create',cust_selMiddleware.isLoggedIn, product_controller.createproduct);
+router.get('/product',cust_selMiddleware.isLoggedIn, product_controller.allproducts);
+router.delete('/delproduct/:pro_id',cust_selMiddleware.isLoggedIn, product_controller.deleteproducts);
+router.put('/product/:pro_id',cust_selMiddleware.isLoggedIn, product_controller.UPDATEproducts);
+
 
 
 

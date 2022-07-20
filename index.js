@@ -1,12 +1,19 @@
 const express= require("express")
 const cors= require("cors")
-var app = express();    
-var mysql = require('mysql');
+var app = express();
+const cookieParser = require('cookie-parser')
 
 
-app.use(cors(
-{    credentials : true
-}));
+const corsOptions ={
+    credentials:true,
+   //  :200
+}
+app.use(cors(corsOptions));
+
+
+app.use(cookieParser());
+
+
 app.use(express.json());
 
 
