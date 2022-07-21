@@ -67,8 +67,27 @@ const router = require("express").Router();
   }
 
 
+  const myproducts = (req, res, next) => {
+
+    let sel_id = req.userData.userId;
+
+    var query = `select * from product where sel_id=${sel_id}`;
+    db.query(query, (err, results) => {
+        if (!err) {
+            return res.status(200).json(results);
+        }
+        else
+            return res.status(500).json(err);
+    });
+
+
+  }
 
 
 
 
-  module.exports = {createproduct ,UPDATEproducts,allproducts,deleteproducts};
+
+
+
+
+  module.exports = {createproduct ,UPDATEproducts,allproducts,deleteproducts, myproducts };
