@@ -7,7 +7,7 @@ module.exports = {
         message: "please enter a name min 3 characters .",
       });
     }
-    if (!req.body.password || req.body.password.length < 6) {
+    if (req.body.password && req.body.password.length < 6) {
       return res.status(400).send({
         message: "Please enter a password with min 6 characters",
       });
