@@ -9,8 +9,8 @@ const cust_selMiddleware = require("../middleware/cus_sel");
 const order_controller = require('../controllers/order_controler');
 const product_controller = require('../controllers/product');
 const AuthController = require('../controllers/AuthController');
-
-
+const OrdersToConfirm = require('../controllers/OrdersToConfirm');
+const profile = require('../controllers/profile');
 
 
 
@@ -37,6 +37,13 @@ router.get('/myproducts',cust_selMiddleware.isLoggedIn, product_controller.mypro
 
 
 
+router.get('/getOrdersToConfirm',cust_selMiddleware.isLoggedIn, OrdersToConfirm.orders_to_cofirm);
+router.delete('/confirmOrder/:ord_id',cust_selMiddleware.isLoggedIn, OrdersToConfirm.confirm_order);
+router.delete('/rejectOrder/:ord_id',cust_selMiddleware.isLoggedIn, OrdersToConfirm.reject_order);
+
+
+router.get('/profile',cust_selMiddleware.isLoggedIn, profile.profile_data);
+router.put('/updateProfile',validateRequest,cust_selMiddleware.isLoggedIn, profile.profile_update);
 
 
 module.exports = router;
