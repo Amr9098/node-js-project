@@ -10,8 +10,8 @@ const router = require("express").Router();
 
   const createproduct = (req, res, next) => {
     let product = req.body;
-    var query = "insert into product (name , description ,photo,price,sel_id) values(?,?,?,?,?)";
-    db.query(query, [product.name, product.description, product.photo,product.price,req.userData.userId], (err, results) => {
+    var query = "insert into product (name , description ,photo,price,sel_id,sel_name) values(?,?,?,?,?,?)";
+    db.query(query, [product.name, product.description, product.photo,product.price,req.userData.userId,req.userData.username], (err, results) => {
         if (!err) {
             return res.status(200).json({ message: "Product Added Successfully" });
         }
@@ -32,6 +32,22 @@ const router = require("express").Router();
 
 
   }
+//   const productsbyid = (req, res, next) => {
+//     var query = `select * from product where sel_id = '${req.body.sel_id}'`;
+//     db.query(query, (err, results) => {
+//         if (!err) {
+//             return res.status(200).json(results);
+//         }
+//         else
+//             return res.status(500).json(err);
+//     });
+
+
+//   }
+
+
+
+
   const UPDATEproducts = (req, res, next) => {
     const pro_id = req.params.pro_id;
     let product = req.body;

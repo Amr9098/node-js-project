@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { validateRequest } = require("../middleware/cus_sel");
 const router = require("express").Router();
+const db = require("../lib/db");
 
 
 
@@ -11,7 +12,6 @@ const neworder = (req, res, next) => {
 
     let cus_id = req.userData.userId;
     let pro_id = req.body.pro_id;
-
 
     var data = {
         cus_id: cus_id,
@@ -30,7 +30,7 @@ const neworder = (req, res, next) => {
 
 const getorder = (req, res, next) => {
   let cus_id = req.userData.userId;
-    var sql = ` SELECT pro_order.ord_id as order_id, customer.name as seller_name, product.*
+    var sql = ` SELECT pro_order.status as status, pro_order.ord_id as order_id, customer.name as seller_name, product.*
     FROM ((pro_order INNER JOIN product ON pro_order.pro_id = product.pro_id)
     INNER JOIN customer ON customer.cus_id = product.sel_id)
      WHERE pro_order.cus_id=${cus_id};`;

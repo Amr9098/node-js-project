@@ -38,7 +38,7 @@ router.get('/myproducts',cust_selMiddleware.isLoggedIn, product_controller.mypro
 
 
 router.get('/getOrdersToConfirm',cust_selMiddleware.isLoggedIn, OrdersToConfirm.orders_to_cofirm);
-router.delete('/confirmOrder/:ord_id',cust_selMiddleware.isLoggedIn, OrdersToConfirm.confirm_order);
+router.put('/confirmOrder',cust_selMiddleware.isLoggedIn, OrdersToConfirm.confirm_order);
 router.delete('/rejectOrder/:ord_id',cust_selMiddleware.isLoggedIn, OrdersToConfirm.reject_order);
 
 
