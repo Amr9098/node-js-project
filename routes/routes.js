@@ -30,7 +30,7 @@ router.delete('/delete_all',cust_selMiddleware.isLoggedIn, order_controller.dele
 
 
 router.post('/create',cust_selMiddleware.isLoggedIn, product_controller.createproduct);
-router.get('/product',cust_selMiddleware.isLoggedIn, product_controller.allproducts);
+router.get('/product', product_controller.allproducts);
 router.delete('/delproduct/:pro_id',cust_selMiddleware.isLoggedIn, product_controller.deleteproducts);
 router.put('/product/:pro_id',cust_selMiddleware.isLoggedIn, product_controller.UPDATEproducts);
 

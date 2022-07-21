@@ -8,9 +8,6 @@ const router = require("express").Router();
 
 
 const neworder = (req, res, next) => {
-  
-
-
 
 
     let cus_id = req.userData.userId;
@@ -20,22 +17,22 @@ const neworder = (req, res, next) => {
     var data = {
         cus_id: cus_id,
         pro_id: pro_id,
-      
+
       };
       var sql = "insert into pro_order SET ?;";
     db.query(sql, data, (err, rows, ) => {
         if (!err) {
-          res.send('record has been inserted')
+          res.status(200).send('record has been inserted')
         }
         else
             res.send(err);
-    })  
+    })
 };
 
 const getorder = (req, res, next) => {
   let cus_id = req.userData.userId;
     var sql = ` SELECT pro_order.ord_id as order_id, customer.name as seller_name, product.*
-    FROM ((pro_order INNER JOIN product ON pro_order.pro_id = product.pro_id) 
+    FROM ((pro_order INNER JOIN product ON pro_order.pro_id = product.pro_id)
     INNER JOIN customer ON customer.cus_id = product.sel_id)
      WHERE pro_order.cus_id=${cus_id};`;
   db.query(sql,  (err, rows ) => {
@@ -44,7 +41,7 @@ const getorder = (req, res, next) => {
       }
       else
           res.send(err);
-  })  
+  })
 };
 
 const deleteorder = (req, res, next) => {
