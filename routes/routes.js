@@ -9,7 +9,7 @@ const cust_selMiddleware = require("../middleware/cus_sel");
 const order_controller = require('../controllers/order_controler');
 const product_controller = require('../controllers/product');
 const AuthController = require('../controllers/AuthController');
-
+const OrdersToConfirm = require('../controllers/OrdersToConfirm');
 
 
 
@@ -30,13 +30,15 @@ router.delete('/delete_all',cust_selMiddleware.isLoggedIn, order_controller.dele
 
 
 router.post('/create',cust_selMiddleware.isLoggedIn, product_controller.createproduct);
-router.get('/product',cust_selMiddleware.isLoggedIn, product_controller.allproducts);
+router.get('/product', product_controller.allproducts);
 router.delete('/delproduct/:pro_id',cust_selMiddleware.isLoggedIn, product_controller.deleteproducts);
 router.put('/product/:pro_id',cust_selMiddleware.isLoggedIn, product_controller.UPDATEproducts);
 router.get('/myproducts',cust_selMiddleware.isLoggedIn, product_controller.myproducts );
 
 
 
-
+router.get('/getOrdersToConfirm',cust_selMiddleware.isLoggedIn, OrdersToConfirm.orders_to_cofirm);
+router.delete('/confirmOrder/:ord_id',cust_selMiddleware.isLoggedIn, OrdersToConfirm.confirm_order);
+router.delete('/rejectOrder/:ord_id',cust_selMiddleware.isLoggedIn, OrdersToConfirm.reject_order);
 
 module.exports = router;
